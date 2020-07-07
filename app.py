@@ -9,12 +9,13 @@ model = pickle.load(open('xgbModel.pkl','rb'))
 def index():
     return "Hello"
 
-@app.route('/predict',methods=['POST'])
+@app.route('/predict')
 def predictValue():
     try:
-        windSpeed = float(request.json['windSpeed'])
-        windDirection = float(request.json['WindDirection'])
-        windGust = float(request.json['windGust']);
+        windSpeed = float(request.args.get('windSpeed'))
+        windDirection = float(request.args.get('windDirection'))
+        windGust = float(request.args.get('windGust'))
+        print(windSpeed,windDirection,windGust)
         output = model.predict(np.array([[windSpeed,windDirection,windGust]]))
         print(output)
         activePower = output[0]
